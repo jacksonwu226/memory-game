@@ -42,9 +42,8 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
   
   const [pokemonList, setPokemonList] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  console.log(isGameOver);
-  console.log(score);
-  console.log(bestScore);
+  const [isGameWon, setIsGameWon] = useState(false);
+
   useEffect(() => {
     const fetchPokemonData = async() => {
       const fetchedPokemonList = await api.fetchMultiplePokemon(pokemonArray);
@@ -60,6 +59,7 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
   const resetGame = () => {
     setScore(0);
     setIsGameOver(false);
+    setIsGameWon(false);
     // reset pokemon list
     const newList = pokemonList.map(pokemon => ({...pokemon, isClicked : false}));
     const shuffledList = shuffleList(newList)
@@ -69,6 +69,9 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
     setScore(prevScore => prevScore+1);
     if(score + 1 > bestScore){
       setBestScore(score + 1);
+    }
+    if(score + 1 === pokemonList.length){
+      setIsGameWon(true);
     }
   };
 
@@ -96,10 +99,19 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
     <>
       {isGameOver ?
         <div className="game-over-screen">
-          <div className="modal-content">
+          <div className="game-over-modal-content">
             <h1>Game over!</h1>
             <p>Your current score: {score}</p>
             <p>Your highest score: {bestScore}</p>
+            <button type="button" onClick={resetGame}>Restart Game</button>
+          </div>
+        </div>
+        :
+      isGameWon ?
+        <div className="game-won-screen">
+          <div className="game-won-modal-content">
+            <h1>Congratulations! You won!</h1>
+            <p>Your score: {score}</p>
             <button type="button" onClick={resetGame}>Restart Game</button>
           </div>
         </div>
@@ -115,7 +127,6 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
           </div>
         </div>
       </div>
-
     }
     </>
   )
