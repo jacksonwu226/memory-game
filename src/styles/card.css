@@ -1,0 +1,6 @@
+.card{
+  background-color: rgba(36, 36, 36, 0.1);
+  border: solid 1px white;
+  border-radius: 1rem;
+  width: auto;
+}

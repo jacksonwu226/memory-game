@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import API from "./API";
 import Card from "./Card";
+import "../styles/mainContent.css"
+
 const api = new API();
 
 const pokemonArray = [
@@ -93,7 +95,7 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
   return (
     <>
       {isGameOver ?
-        <div className="game-over-modal">
+        <div className="game-over-screen">
           <div className="modal-content">
             <h1>Game over!</h1>
             <p>Your current score: {score}</p>
@@ -101,12 +103,20 @@ function MainContent({score, setScore, bestScore, setBestScore}) {
             <button type="button" onClick={resetGame}>Restart Game</button>
           </div>
         </div>
-        : null}
-      <div className="card-container"> 
-        {pokemonList.map((item,index)=>{
-            return <Card key={index} link={item.img} name={item.name} onClick={ () => onCardClick(index)}/>
-        })}
+        :
+      <div className="game-container">
+        <div className="score-board">
+          <p className="score">Score: {score}</p>
+          <p className="best-score">Highest Score: {bestScore}</p>
+          <div className="card-grid-container"> 
+          {pokemonList.map((item,index)=>{
+              return <Card key={index} link={item.img} name={item.name} onClick={ () => onCardClick(index)}/>
+            })}
+          </div>
+        </div>
       </div>
+
+    }
     </>
   )
 };
