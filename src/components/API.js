@@ -15,7 +15,6 @@ class API {
       return {
         name: responseJSON.name,
         img: responseJSON.sprites.front_default,
-        clicked: false,
       };
     } catch (error) {
       console.log("Error in getting Pokémon data:", error);
